@@ -6,8 +6,29 @@ SETTINGS_PATH="$CODEOSS_PATH/data/Machine"
 mkdir -p $SETTINGS_PATH
 cat << EOF > $SETTINGS_PATH/settings.json
 {
-    "workbench.colorTheme": "Default Dark+",
-    "terminal.integrated.defaultProfile.linux": "zsh"
+  "workbench.colorTheme": "Dark Modern",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  "go.formatTool": "goimports",
+  "[go]": {
+    "editor.defaultFormatter": "golang.go",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "black-formatter.args": ["--line-length=120"],
+  "flake8.args": ["--max-line-length=120", "--config=.flake8"],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.ruff": "explicit"
+    }
+  },
+  "notebook.defaultFormatter": "ms-python.black-formatter",
+  "cSpell.userWords": ["genai"],
+  "trailing-spaces.trimOnSave": true,
+  "terminal.integrated.defaultProfile.linux": "zsh"
 }
 EOF
 

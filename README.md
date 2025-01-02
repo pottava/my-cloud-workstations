@@ -1,5 +1,4 @@
-[Cloud Workstations カスタマイズ](https://cloud.google.com/workstations/docs/customize-container-images?hl=ja) スクリプト
-===
+# [Cloud Workstations カスタマイズ](https://cloud.google.com/workstations/docs/customize-container-images?hl=ja) スクリプト
 
 ## 1. 環境を設定
 
@@ -19,7 +18,8 @@ gcloud artifacts repositories create workstations --location ${region} --reposit
 
 ```sh
 docker build -t test .
-docker run --rm --privileged -p 8080:80 test
+docker run --name ws --rm --privileged -p 8080:80 test
+docker rm -f ws
 ```
 
 ## 4. リポジトリへ保存

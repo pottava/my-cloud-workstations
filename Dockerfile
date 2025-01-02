@@ -30,17 +30,14 @@ RUN wget -O prettier.vsix $(curl -s https://open-vsx.org/api/esbenp/prettier-vsc
 RUN wget -O vscode-html-css.vsix $(curl -s https://open-vsx.org/api/ecmel/vscode-html-css | jq -r '.files.download') \
     && unzip vscode-html-css.vsix "extension/*" && mv extension /opt/code-oss/extensions/vscode-html-css
 
-# RUN wget -O go.vsix $(curl -s https://open-vsx.org/api/golang/go | jq -r '.files.download') \
-#     && unzip go.vsix "extension/*" && mv extension /opt/code-oss/extensions/go
+RUN wget -O black.vsix $(curl -s https://open-vsx.org/api/ms-python/black-formatter | jq -r '.files.download') \
+    && unzip black.vsix "extension/*" && mv extension /opt/code-oss/extensions/black-formatter
 
-# RUN wget -O python.vsix $(curl -s https://open-vsx.org/api/ms-python/python | jq -r '.files.download') \
-#     && unzip python.vsix "extension/*" && mv extension /opt/code-oss/extensions/python
+RUN wget -O flake8.vsix $(curl -s https://open-vsx.org/api/ms-python/flake8 | jq -r '.files.download') \
+    && unzip flake8.vsix "extension/*" && mv extension /opt/code-oss/extensions/flake8
 
-RUN wget -O isort.vsix $(curl -s https://open-vsx.org/api/ms-python/isort | jq -r '.files.download') \
-    && unzip isort.vsix "extension/*" && mv extension /opt/code-oss/extensions/isort
-
-RUN wget -O autopep8.vsix $(curl -s https://open-vsx.org/api/ms-python/autopep8 | jq -r '.files.download') \
-    && unzip autopep8.vsix "extension/*" && mv extension /opt/code-oss/extensions/autopep8
+RUN wget -O ruff.vsix $(curl -s https://open-vsx.org/api/charliermarsh/ruff | jq -r '.files.download') \
+    && unzip ruff.vsix "extension/*" && mv extension /opt/code-oss/extensions/ruff
 
 RUN wget -O jupyter.vsix $(curl -s https://open-vsx.org/api/ms-toolsai/jupyter | jq -r '.files.download') \
     && unzip jupyter.vsix "extension/*" && mv extension /opt/code-oss/extensions/jupyter
