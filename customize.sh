@@ -27,7 +27,10 @@ cat << EOF > $SETTINGS_PATH/settings.json
   },
   "notebook.defaultFormatter": "ms-python.black-formatter",
   "cSpell.userWords": ["genai"],
-  "trailing-spaces.trimOnSave": true,
+  "files.trimTrailingWhitespace": true,
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  },
   "workbench.startupEditor": "none",
   "terminal.integrated.defaultProfile.linux": "zsh"
 }

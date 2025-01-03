@@ -4,8 +4,7 @@ FROM asia-northeast1-docker.pkg.dev/cloud-workstations-images/predefined/code-os
 RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
        sudo tee /etc/apt/sources.list.d/hashicorp.list
-RUN sudo apt update && sudo apt install -y zsh gnupg software-properties-common terraform
-RUN apt-get clean
+RUN apt update && apt install -y zsh gnupg software-properties-common terraform && apt-get clean
 ENV ZSH=/opt/workstation/oh-my-zsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended \
     && git clone https://github.com/zsh-users/zsh-autosuggestions /opt/workstation/oh-my-zsh/plugins/zsh-autosuggestions \
@@ -13,6 +12,9 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 
 # NPM
 RUN npm -g install n && n lts && apt purge -y nodejs npm && apt autoremove -y
+
+# Python
+RUN apt install -y python3.12-venv && apt-get clean
 
 # Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && mkdir -p /opt/cargo && mv $HOME/.cargo/bin /opt/cargo/
