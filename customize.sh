@@ -6,7 +6,7 @@ SETTINGS_PATH="$CODEOSS_PATH/data/Machine"
 mkdir -p $SETTINGS_PATH
 cat << EOF > $SETTINGS_PATH/settings.json
 {
-  "workbench.colorTheme": "Dark Modern",
+  "workbench.colorTheme": "Default Dark+",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.minimap.enabled": false,
@@ -27,7 +27,11 @@ cat << EOF > $SETTINGS_PATH/settings.json
   },
   "notebook.defaultFormatter": "ms-python.black-formatter",
   "cSpell.userWords": ["genai"],
-  "trailing-spaces.trimOnSave": true,
+  "files.trimTrailingWhitespace": true,
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  },
+  "workbench.startupEditor": "none",
   "terminal.integrated.defaultProfile.linux": "zsh"
 }
 EOF
