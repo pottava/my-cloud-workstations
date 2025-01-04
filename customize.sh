@@ -32,6 +32,22 @@ cat << EOF > $SETTINGS_PATH/settings.json
     "files.trimTrailingWhitespace": false
   },
   "workbench.startupEditor": "none",
+  "files.exclude": {
+    "**/.git": true,
+    ".b*": true,
+    ".c*": true,
+    ".docker": true,
+    ".gitconfig": true,
+    ".kube": true,
+    ".npm": true,
+    ".rustup": true,
+    "go/pkg": true,
+    ".profile": true,
+    ".python_history": true,
+    ".sudo_*": true,
+    ".viminfo": true,
+    ".z*": true
+  },
   "terminal.integrated.defaultProfile.linux": "zsh"
 }
 EOF
@@ -46,7 +62,7 @@ if [ -f "/home/user/.zshrc" ]; then
 else
 
     cat << 'EOF' > /home/user/.zshrc
-export PATH="$PATH:/opt/workstation/bin:/opt/cargo/bin"
+export PATH="$PATH:/opt/workstation/bin:/opt/cargo/bin:/home/user/go/bin"
 
 export ZSH=/opt/workstation/oh-my-zsh
 export ZSH_THEME="powerlevel10k/powerlevel10k"
