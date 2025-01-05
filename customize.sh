@@ -28,7 +28,8 @@ cat << EOF > $SETTINGS_PATH/settings.json
   "notebook.defaultFormatter": "ms-python.black-formatter",
   "files.trimTrailingWhitespace": true,
   "[markdown]": {
-    "files.trimTrailingWhitespace": false
+    "files.trimTrailingWhitespace": false,
+    "editor.renderWhitespace": "boundary"
   },
   "workbench.startupEditor": "none",
   "files.exclude": {
@@ -78,13 +79,13 @@ alias k='kubectl'
 alias d='docker'
 alias code='code-oss-cloud-workstations'
 
+git config --global init.defaultBranch main
+git config --global core.editor vim
+
 source "$ZSH/oh-my-zsh.sh"
 EOF
 chsh -s $(which zsh) user
 fi
-
-git config --global init.defaultBranch main
-git config --global core.editor vim
 
 mkdir -p /home/user/.ssh
 cat << EOF > /home/user/.ssh/config

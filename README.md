@@ -50,7 +50,7 @@ gcloud artifacts repositories add-iam-policy-binding workstations --location ${r
 GitHub に渡すサービスアカウントを生成
 
 ```bash
-gcloud iam service-accounts create sa-github
+gcloud iam service-accounts create sa-githubq
 gcloud projects add-iam-policy-binding "${project_id}" \
     --member "serviceAccount:sa-github@${project_id}.iam.gserviceaccount.com" \
     --role "roles/viewer"
@@ -60,6 +60,13 @@ gcloud projects add-iam-policy-binding ${project_id} \
 gcloud projects add-iam-policy-binding ${project_id} \
     --member="serviceAccount:sa-github@${project_id}.iam.gserviceaccount.com" \
     --role="roles/artifactregistry.writer"
+gcloud projects add-iam-policy-binding ${project_id} \
+    --member="serviceAccount:sa-github@${project_id}.iam.gserviceaccount.com" \
+    --role="roles/workstations.admin"
+gcloud iam service-accounts add-iam-policy-binding \
+    sa-workstations@${project_id}.iam.gserviceaccount.com \
+    --member "serviceAccount:sa-github@${project_id}.iam.gserviceaccount.com" \
+    --role "roles/iam.serviceAccountUser"
 ```
 
 GitHub に安全に権限を渡すため、[Workload Identity 連携](https://cloud.google.com/iam/docs/workload-identity-federation?hl=ja) を設定
@@ -83,7 +90,7 @@ Identity Provider (IdP) を作成
 gcloud iam workload-identity-pools providers create-oidc "idp-github-${repository_owner}" \
     --workload-identity-pool "idpool-cicd" --location "global" \
     --issuer-uri "https://token.actions.githubusercontent.com" \
-    --attribute-mapping "google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.repository_owner=assertion.repository_owner" \
+    --attribute-mapping "google.subject=assertion.sub,attribute.repository_owner=assertion.repository_owner" \
     --attribute-condition "assertion.repository_owner=='${repository_owner}'" \
     --display-name "Workload IdP for GitHub"
 gcloud iam service-accounts add-iam-policy-binding sa-github@${project_id}.iam.gserviceaccount.com \
@@ -98,3 +105,4 @@ GitHub から Google Cloud 上のリソースにアクセスするための変�
 
 - **GOOGLE_CLOUD_PROJECT**: プロジェクト ID
 - **GOOGLE_CLOUD_WORKLOAD_IDP**: 最後に出力された IdP ID
+- **CLOUD_WORKSTATIONS_CLUSTER**: Cloud Workstations クラスタ ID

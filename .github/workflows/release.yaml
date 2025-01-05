@@ -46,3 +46,14 @@ jobs:
           tags: ${{ env.GOOGLE_CLOUD_REGION }}-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT }}/workstations/customized:${{ steps.sha.outputs.sha_short }}
           context: .
           push: true
+
+      - name: Create a workstation
+        run: |
+          gcloud workstations configs create vscode-customized-${{ steps.sha.outputs.sha_short }} \
+            --region ${{ env.GOOGLE_CLOUD_REGION }} --cluster ${{ secrets.CLOUD_WORKSTATIONS_CLUSTER }} --machine-type e2-standard-4 \
+            --container-custom-image ${{ env.GOOGLE_CLOUD_REGION }}-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT }}/workstations/customized:${{ steps.sha.outputs.sha_short }} \
+            --idle-timeout 3600 --running-timeout 43200 --max-usable-workstations-count 1 \
+            --service-account sa-workstations@${{ secrets.GOOGLE_CLOUD_PROJECT }}.iam.gserviceaccount.com \
+            --shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring
+          gcloud workstations create vscode-${{ steps.sha.outputs.sha_short }} --async --region ${{ env.GOOGLE_CLOUD_REGION }} \
+            --cluster ${{ secrets.CLOUD_WORKSTATIONS_CLUSTER }} --config vscode-customized-${{ steps.sha.outputs.sha_short }}
