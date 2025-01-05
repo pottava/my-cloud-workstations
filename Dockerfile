@@ -12,7 +12,7 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 RUN wget -O terraform.vsix $(curl -s https://open-vsx.org/api/hashicorp/terraform/linux-x64 | jq -r '.files.download') \
     && unzip terraform.vsix "extension/*" && mv extension /opt/code-oss/extensions/terraform
 
-# NPM
+# Node.js
 RUN npm -g install n && n lts && apt purge -y nodejs npm && apt autoremove -y && apt clean
 RUN wget -O prettier.vsix $(curl -s https://open-vsx.org/api/esbenp/prettier-vscode | jq -r '.files.download') \
     && unzip prettier.vsix "extension/*" && mv extension /opt/code-oss/extensions/prettier
@@ -33,9 +33,20 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && m
 RUN wget -O rust-analyzer.vsix $(curl -s https://open-vsx.org/api/rust-lang/rust-analyzer | jq -r '.files.download') \
     && unzip rust-analyzer.vsix "extension/*" && mv extension /opt/code-oss/extensions/rust-analyzer
 
+# Go
+RUN mkdir -p /opt/workstation/bin
+RUN GOBIN="/opt/workstation/bin" go install golang.org/x/tools/gopls@latest
+RUN GOBIN="/opt/workstation/bin" go install golang.org/x/tools/cmd/goimports@latest
+RUN GOBIN="/opt/workstation/bin" go install honnef.co/go/tools/cmd/staticcheck@latest
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /opt/workstation/bin v1.63.2
+
 # Protobuf
 RUN apt install -y clang-format && apt autoremove -y && apt clean
 RUN npm -g install @bufbuild/buf
+RUN GOBIN="/opt/workstation/bin" go install github.com/bufbuild/buf/cmd/buf@latest
+RUN GOBIN="/opt/workstation/bin" go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+RUN GOBIN="/opt/workstation/bin" go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+RUN GOBIN="/opt/workstation/bin" go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
 RUN wget -O clang-format.vsix $(curl -s https://open-vsx.org/api/xaver/clang-format | jq -r '.files.download') \
     && unzip clang-format.vsix "extension/*" && mv extension /opt/code-oss/extensions/clang-format
 RUN wget -O proto3.vsix $(curl -s https://open-vsx.org/api/zxh404/vscode-proto3 | jq -r '.files.download') \

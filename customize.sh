@@ -26,7 +26,6 @@ cat << EOF > $SETTINGS_PATH/settings.json
     }
   },
   "notebook.defaultFormatter": "ms-python.black-formatter",
-  "cSpell.userWords": ["genai"],
   "files.trimTrailingWhitespace": true,
   "[markdown]": {
     "files.trimTrailingWhitespace": false
@@ -83,6 +82,22 @@ source "$ZSH/oh-my-zsh.sh"
 EOF
 chsh -s $(which zsh) user
 fi
+
+git config --global init.defaultBranch main
+git config --global core.editor vim
+
+mkdir -p /home/user/.ssh
+cat << EOF > /home/user/.ssh/config
+Host github github.com
+  HostName github.com
+  IdentityFile ~/.ssh/id_ed25519
+  User git
+
+Host gitlab gitlab.com
+  HostName gitlab.com
+  IdentityFile ~/.ssh/id_ed25519
+  User git
+EOF
 
 zsh -c "source $ZSH/oh-my-zsh.sh"
 
